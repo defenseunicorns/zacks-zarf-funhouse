@@ -9,7 +9,7 @@ variables:
 
   - name: REGISTRY_PVC_ENABLED
     description: Toggle the creation and use of a PVC off/on
-    default: "true"
+    default: "false"
 
   - name: REGISTRY_PVC_SIZE
     description: The size of the persistent volume claim for the registry
@@ -57,6 +57,14 @@ variables:
     description: Array of additional environment variables passed to the registry container
     default: ""
     autoIndent: true
+
+  - name: REGISTRY_USE_IRSA
+    description: Toggle the ability to use an IRSA for the registry
+    default: "true"
+
+  - name: REGISTRY_IRSA_ARN
+    description: The ARN of the IAM Role to assume
+    default: ""
 
 constants:
   - name: REGISTRY_IMAGE

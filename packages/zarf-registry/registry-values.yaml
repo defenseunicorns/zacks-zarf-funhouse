@@ -44,3 +44,7 @@ caBundle: ###ZARF_VAR_REGISTRY_CA_BUNDLE###
 
 extraEnvVars:
   ###ZARF_VAR_REGISTRY_EXTRA_ENVS###
+
+serviceAccount:
+  enableIrsa: "###ZARF_VAR_REGISTRY_USE_IRSA###"
+  irsaArn: ###ZARF_VAR_REGISTRY_IRSA_ARN###
