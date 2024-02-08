@@ -58,11 +58,15 @@ variables:
     default: ""
     autoIndent: true
 
-  - name: REGISTRY_USE_IRSA
+  - name: REGISTRY_CREATE_SERVICE_ACCOUNT
     description: Toggle the ability to use an IRSA for the registry
     default: "true"
 
-  - name: REGISTRY_IRSA_ARN
+  - name: REGISTRY_SERVICE_ACCOUNT_NAME
+    description: The name of the service account to use. If not set and create is true, a name is generated using fullname template
+    default: ""
+
+  - name: REGISTRY_SERVICE_ACCOUNT_ANNOTATIONS
     description: The ARN of the IAM Role to assume
     default: ""
 
@@ -127,7 +131,7 @@ components:
             wait:
               cluster:
                 kind: storageclass
-                name: "\"${ZARF_STORAGE_CLASS}\""
+                name: '"${ZARF_STORAGE_CLASS}"'
 
   - name: zarf-registry
     description: |
