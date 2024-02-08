@@ -9,7 +9,7 @@ variables:
 
   - name: REGISTRY_PVC_ENABLED
     description: Toggle the creation and use of a PVC off/on
-    default: "true"
+    default: "false"
 
   - name: REGISTRY_PVC_SIZE
     description: The size of the persistent volume claim for the registry
@@ -57,6 +57,18 @@ variables:
     description: Array of additional environment variables passed to the registry container
     default: ""
     autoIndent: true
+
+  - name: REGISTRY_CREATE_SERVICE_ACCOUNT
+    description: Toggle the ability to use an IRSA for the registry
+    default: "true"
+
+  - name: REGISTRY_SERVICE_ACCOUNT_NAME
+    description: The name of the service account to use. If not set and create is true, a name is generated using fullname template
+    default: ""
+
+  - name: REGISTRY_SERVICE_ACCOUNT_ANNOTATIONS
+    description: The ARN of the IAM Role to assume
+    default: ""
 
 constants:
   - name: REGISTRY_IMAGE
@@ -119,7 +131,7 @@ components:
             wait:
               cluster:
                 kind: storageclass
-                name: "\"${ZARF_STORAGE_CLASS}\""
+                name: '"${ZARF_STORAGE_CLASS}"'
 
   - name: zarf-registry
     description: |

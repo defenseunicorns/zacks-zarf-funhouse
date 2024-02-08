@@ -44,3 +44,11 @@ caBundle: ###ZARF_VAR_REGISTRY_CA_BUNDLE###
 
 extraEnvVars:
   ###ZARF_VAR_REGISTRY_EXTRA_ENVS###
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: ###ZARF_VAR_REGISTRY_CREATE_SERVICE_ACCOUNT###
+  # The name of the service account to use. If name not set and create is true, a name is generated using fullname template
+  name: "###ZARF_VAR_REGISTRY_SERVICE_ACCOUNT_NAME###"
+  annotations:
+    ###ZARF_VAR_REGISTRY_SERVICE_ACCOUNT_ANNOTATIONS###
