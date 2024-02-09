@@ -9,7 +9,7 @@ variables:
 
   - name: REGISTRY_PVC_ENABLED
     description: Toggle the creation and use of a PVC off/on
-    default: "false"
+    default: "true"
 
   - name: REGISTRY_PVC_SIZE
     description: The size of the persistent volume claim for the registry
