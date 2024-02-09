@@ -2,6 +2,7 @@ kind: ZarfInitConfig
 metadata:
   name: init
   description: Used to establish a new Zarf cluster
+  source: https://github.com/defenseunicorns/zacks-zarf-funhouse
 
 components:
   - name: k3s
