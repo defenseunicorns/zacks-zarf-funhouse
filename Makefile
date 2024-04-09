@@ -113,9 +113,23 @@ build-local-agent-image: ## Build the Zarf agent image to be used in a locally b
 	@ if [ "$(ARCH)" = "amd64" ]; then rm build/zarf-linux-amd64; fi
 	@ if [ "$(ARCH)" = "arm64" ]; then rm build/zarf-linux-arm64; fi
 
+build-and-push-init-packages: ## Build and push the init package to the registry
+	$(MAKE) build-and-publish-registry1-init-package
+	$(MAKE) build-and-publish-init-package
+
+build-and-publish-registry1-init-package: ## Build and push the init package to the registry
+	$(MAKE) registry1-init-package
+	$(MAKE) publish-registry1-init-package
+
+build-and-publish-init-package: ## Build and push the init package to the registry
+	$(MAKE) init-package
+	$(MAKE) publish-init-package
+
 init-package: ## Create the zarf init package (must `brew install coreutils` on macOS and have `docker` first)
-	@test -s $(ZARF_BIN) || $(MAKE) build-cli
-	$(ZARF_BIN) package create -o build -a $(ARCH) --confirm .
+	ZARF_ARCHITECTURE=amd64 zarf package create -o build --confirm .
+
+registry1-init-package:
+	ZARF_ARCHITECTURE=amd64 ZARF_CONFIG=./zarf-config-registry1.yaml zarf package create -o build --confirm
 
 # INTERNAL: used to build a release version of the init package with a specific agent image
 release-init-package:
@@ -131,8 +145,15 @@ ib-init-package:
 
 # INTERNAL: used to publish the init package
 publish-init-package:
-	$(ZARF_BIN) package publish build/zarf-init-$(ARCH)-$(CLI_VERSION).tar.zst oci://$(REPOSITORY_URL)
-	$(ZARF_BIN) package publish . oci://$(REPOSITORY_URL)
+	@$(eval VERSION=$(shell zarf version))
+	@echo $(VERSION)
+	zarf package publish build/zarf-init-amd64-$(VERSION).tar.zst  oci://ghcr.io/defenseunicorns/zacks-zarf-funhouse
+
+publish-registry1-init-package:
+	@$(eval VERSION=$(shell zarf version))
+	@echo $(VERSION)
+	zarf package publish build/zarf-init-amd64-$(VERSION).tar.zst  oci://ghcr.io/defenseunicorns/zacks-zarf-funhouse
+	zarf tools registry copy ghcr.io/defenseunicorns/zacks-zarf-funhouse/init:$(VERSION) ghcr.io/defenseunicorns/zacks-zarf-funhouse/init:$(VERSION)-registry1
 
 build-examples: ## Build all of the example packages
 	@test -s $(ZARF_BIN) || $(MAKE) build-cli

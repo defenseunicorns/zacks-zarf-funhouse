@@ -1,4 +1,7 @@
 [package.create.set]
+package_name_prefix = 'v0.32.6'
+package_name_suffix = ''
+
 # The image reference to use for the Zarf agent, defaults to a locally built image
 agent_image_domain = 'ghcr.io/'
 agent_image = 'defenseunicorns/zarf/agent'

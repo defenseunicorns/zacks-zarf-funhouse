@@ -1,7 +1,8 @@
 kind: ZarfInitConfig
 metadata:
-  name: init
+  name: "init"
   description: Used to establish a new Zarf cluster
+  version: "###ZARF_PKG_TMPL_PACKAGE_NAME_PREFIX######ZARF_PKG_TMPL_PACKAGE_NAME_SUFFIX###"
   source: https://github.com/defenseunicorns/zacks-zarf-funhouse
 
 components:
